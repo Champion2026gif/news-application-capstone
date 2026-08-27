@@ -29,6 +29,7 @@ class ArticleListView(LoginRequiredMixin, ListView):
 
 
 class ArticleDetailView(LoginRequiredMixin, DetailView):
+    """Display the details of a single news article."""
     model = Article
     template_name = "articles/article_detail.html"
     context_object_name = "article"
@@ -82,6 +83,8 @@ def reject_article(request, pk):
 
 
 class NewsletterListView(LoginRequiredMixin, ListView):
+    """Display the list of available newsletters."""
+
     model = Newsletter
     template_name = "articles/newsletter_list.html"
     context_object_name = "newsletters"
@@ -121,6 +124,7 @@ def create_newsletter(request):
 
 @login_required
 def create_article(request):
+    """Allow journalists to create and submit articles for editorial review."""
     if not request.user.groups.filter(name="Journalist").exists() and not request.user.is_superuser:
         messages.error(request, "Only journalists may create articles.")
         return redirect("articles:article_list")
