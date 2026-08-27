@@ -1,15 +1,11 @@
 """
-Core content models: Publisher, Article, Newsletter.
+Core content models for the News Application.
 
-Normalisation notes (expanded in README.md):
-- Each entity has a single-purpose table with atomic fields (1NF).
-- Non-key fields depend only on the primary key, not on each other or on
-  part of a composite key (2NF/3NF) - e.g. Article does not store the
-  publisher's name, only a FK to Publisher.
-- Many-to-many relationships (Publisher<->editors/journalists,
-  Newsletter<->Article, Reader<->subscriptions) are implemented with
-  Django ManyToManyFields, which Django resolves into a separate junction
-  table automatically - avoiding repeating groups.
+This module defines Publisher, Article, and Newsletter models.
+
+The models use normalised Django relationships, including foreign keys
+and many-to-many relationships, to connect publishers, users, articles,
+and newsletters without duplicating data.
 """
 from django.conf import settings
 from django.db import models

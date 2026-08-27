@@ -1,16 +1,12 @@
 """
-Custom user model for the news application.
+Custom user model for the News Application.
 
-Design notes (see README.md for full normalisation discussion):
-- A single CustomUser model is used with a `role` field rather than
-  separate tables per role. This keeps authentication simple (one
-  login table) while still allowing role-specific behaviour.
-- Role-specific relationships (subscriptions for Readers) are kept on
-  this model as ManyToManyFields. Role-specific relationships that
-  belong to OTHER models (Articles/Newsletters authored by a
-  Journalist) are reverse relations defined via related_name on the
-  Article/Newsletter models in the `articles` app - this avoids
-  duplicating data and keeps the schema normalised.
+The application uses a single CustomUser model with a role field for
+Reader, Editor, and Journalist accounts.
+
+Role-specific relationships are represented using Django relationships,
+including subscriptions for readers and authored content for journalists.
+This keeps authentication simple while supporting role-based behaviour.
 """
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
