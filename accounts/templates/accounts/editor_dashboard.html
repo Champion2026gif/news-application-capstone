@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Editor Dashboard{% endblock %}
+{% block content %}
+<h1>Editor Dashboard</h1>
+<p>Welcome, {{ user.username }}. Review submitted articles and manage editorial content.</p>
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <h2>Editorial queue</h2>
+        <p>Review, approve, or reject pending article submissions.</p>
+        <a class="btn" href="{% url 'articles:pending_list' %}">Review pending articles</a>
+    </div>
+    <div class="dashboard-card">
+        <h2>Create a newsletter</h2>
+        <p>Curate approved stories into a newsletter.</p>
+        <a class="btn" href="{% url 'articles:newsletter_create' %}">New newsletter</a>
+    </div>
+    <div class="dashboard-card">
+        <h2>Published content</h2>
+        <p>Browse the approved article catalogue.</p>
+        <a class="btn" href="{% url 'articles:article_list' %}">Browse articles</a>
+    </div>
+</div>
+{% endblock %}

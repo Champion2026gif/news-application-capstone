@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ newsletter.title }}{% endblock %}
+{% block content %}
+<h1>{{ newsletter.title }}</h1>
+<p class="meta">By {{ newsletter.author.username }} &middot; {{ newsletter.created_at|date:"d M Y" }}</p>
+<p>{{ newsletter.description|linebreaks }}</p>
+<h2>Articles in this newsletter</h2>
+{% for article in newsletter.articles.all %}
+<div class="article-card">
+    <h3><a href="{% url 'articles:article_detail' article.pk %}">{{ article.title }}</a></h3>
+    <p class="meta">By {{ article.author.username }}</p>
+</div>
+{% empty %}
+<p>No articles added yet.</p>
+{% endfor %}
+{% endblock %}

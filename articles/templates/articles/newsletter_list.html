@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Newsletters{% endblock %}
+{% block content %}
+<h1>Newsletters</h1>
+{% if perms.articles.add_newsletter %}
+<p><a class="btn" href="{% url 'articles:newsletter_create' %}">+ Create newsletter</a></p>
+{% endif %}
+{% for newsletter in newsletters %}
+<div class="newsletter-card">
+    <h2><a href="{% url 'articles:newsletter_detail' newsletter.pk %}">{{ newsletter.title }}</a></h2>
+    <p class="meta">By {{ newsletter.author.username }} &middot; {{ newsletter.created_at|date:"d M Y" }} &middot; {{ newsletter.articles.count }} article(s)</p>
+    <p>{{ newsletter.description|truncatewords:25 }}</p>
+</div>
+{% empty %}
+<p>No newsletters yet.</p>
+{% endfor %}
+{% endblock %}

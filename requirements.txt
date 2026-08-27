@@ -1,0 +1,5 @@
+Django>=4.2,<5.0
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.1
+requests>=2.31
+mysqlclient>=2.2   # required only when USE_MARIADB=1 (needs MariaDB dev headers on the host)

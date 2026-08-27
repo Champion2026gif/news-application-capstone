@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Articles{% endblock %}
+{% block content %}
+<h1>Articles</h1>
+{% if user.groups.all|length > 0 and "Journalist" in user.groups.all|join:","%}{% endif %}
+{% if perms.articles.add_article %}
+<p><a class="btn" href="{% url 'articles:article_create' %}">+ Submit new article</a></p>
+{% endif %}
+{% for article in articles %}
+<div class="article-card">
+    <h2><a href="{% url 'articles:article_detail' article.pk %}">{{ article.title }}</a></h2>
+    <p class="meta">
+        By {{ article.author.get_full_name|default:article.author.username }}
+        {% if article.publisher %} &middot; {{ article.publisher.name }}{% else %} &middot; Independent{% endif %}
+        &middot; {{ article.created_at|date:"d M Y" }}
+        {% if article.approved %}<span class="badge approved">Approved</span>{% else %}<span class="badge pending">Pending review</span>{% endif %}
+    </p>
+    <p>{{ article.content|truncatewords:30 }}</p>
+</div>
+{% empty %}
+<p>No articles yet.</p>
+{% endfor %}
+{% endblock %}

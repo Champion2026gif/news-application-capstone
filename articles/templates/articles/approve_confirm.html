@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Approve Article{% endblock %}
+{% block content %}
+<h1>Approve "{{ article.title }}"?</h1>
+<p>{{ article.content|linebreaks }}</p>
+<p class="meta">By {{ article.author.username }}{% if article.publisher %} for {{ article.publisher.name }}{% endif %}</p>
+<p>Approving will notify subscribers by email and log the article via the internal API.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm approval</button>
+    <a class="btn reject" href="{% url 'articles:pending_list' %}">Cancel</a>
+</form>
+{% endblock %}

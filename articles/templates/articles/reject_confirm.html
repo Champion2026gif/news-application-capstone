@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Reject Article{% endblock %}
+{% block content %}
+<h1>Reject "{{ article.title }}"?</h1>
+<p>This will permanently delete the submitted article.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="reject">Confirm rejection</button>
+    <a class="btn" href="{% url 'articles:pending_list' %}">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Submit Article{% endblock %}
+{% block content %}
+<h1>Submit a new article</h1>
+<p class="meta">Your article will be sent to the editorial queue for approval before it appears publicly.</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit for review</button>
+</form>
+{% endblock %}

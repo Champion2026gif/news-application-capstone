@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}News App{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+        nav { display: flex; gap: 1rem; border-bottom: 2px solid #222; padding-bottom: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: #0a4d8c; font-weight: 600; }
+        .article-card, .newsletter-card { border: 1px solid #ddd; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; }
+        .meta { color: #666; font-size: 0.85rem; }
+        .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        .badge.pending { background: #fdecea; color: #b3261e; }
+        .badge.approved { background: #e6f4ea; color: #1e7e34; }
+        .messages { list-style: none; padding: 0; }
+        .messages li { padding: 0.6rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; }
+        .messages .success { background: #e6f4ea; color: #1e7e34; }
+        .messages .error { background: #fdecea; color: #b3261e; }
+        form p { margin: 0.5rem 0; }
+        button, .btn { background: #0a4d8c; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+        button.reject, .btn.reject { background: #b3261e; }
+        .panel { max-width: 620px; border: 1px solid #ddd; border-radius: 8px; padding: 1.25rem; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+        .dashboard-card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="{% url 'articles:article_list' %}">Articles</a>
+    <a href="{% url 'articles:newsletter_list' %}">Newsletters</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+        {% if user.is_editor or user.is_superuser %}
+            <a href="{% url 'articles:pending_list' %}">Editorial Queue</a>
+        {% endif %}
+        {% if user.is_journalist or user.is_superuser %}
+            <a href="{% url 'articles:article_create' %}">Submit Article</a>
+        {% endif %}
+        {% if user.is_journalist or user.is_editor or user.is_superuser %}
+            <a href="{% url 'articles:newsletter_create' %}">Create Newsletter</a>
+        {% endif %}
+        <span class="meta">Signed in as {{ user.username }} ({{ user.get_role_display }})</span>
+        <form action="{% url 'logout' %}" method="post" style="display:inline">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Log in</a>
+        <a href="{% url 'accounts:register' %}">Register</a>
+    {% endif %}
+</nav>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% block content %}{% endblock %}
+</body>
+</html>

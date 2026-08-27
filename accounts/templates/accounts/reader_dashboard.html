@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Reader Dashboard{% endblock %}
+{% block content %}
+<h1>Reader Dashboard</h1>
+<p>Welcome, {{ user.username }}. Browse approved news content from here.</p>
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <h2>Articles</h2>
+        <p>Read approved articles from journalists and publishers.</p>
+        <a class="btn" href="{% url 'articles:article_list' %}">Browse articles</a>
+    </div>
+    <div class="dashboard-card">
+        <h2>Newsletters</h2>
+        <p>Read available newsletters and curated stories.</p>
+        <a class="btn" href="{% url 'articles:newsletter_list' %}">Browse newsletters</a>
+    </div>
+</div>
+{% endblock %}
