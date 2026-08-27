@@ -1,3 +1,4 @@
+"""Views for account registration, role routing, and user dashboards."""
 from functools import wraps
 
 from django.contrib import messages
@@ -62,14 +63,17 @@ def dashboard(request):
 
 @role_required(Role.READER)
 def reader_dashboard(request):
+    """Display the dashboard for users with the Reader role."""
     return render(request, "accounts/reader_dashboard.html")
 
 
 @role_required(Role.JOURNALIST)
 def journalist_dashboard(request):
+    """Display the dashboard for users with the Journalist role."""
     return render(request, "accounts/journalist_dashboard.html")
 
 
 @role_required(Role.EDITOR)
 def editor_dashboard(request):
+    """Display the dashboard for users with the Editor role."""
     return render(request, "accounts/editor_dashboard.html")
