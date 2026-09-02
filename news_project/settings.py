@@ -2,15 +2,20 @@
 Django settings for news_project.
 
 Database:
-- Defaults to SQLite for local development/automated tests (zero setup).
-- Set env var USE_MARIADB=1 (plus DB_* env vars) to run against MariaDB,
-  per the capstone requirement to migrate to MariaDB for the final
-  submission. See README.md "Migrating to MariaDB" section.
+- MariaDB/MySQL is the default database backend.
+- Database credentials are loaded from environment variables defined
+  in the project's .env file.
+- SQLite may be configured separately for local development if required.
 """
-import os
+
 from pathlib import Path
+import os
+
+from dotenv import load_dotenv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
@@ -69,25 +74,19 @@ TEMPLATES = [
 WSGI_APPLICATION = "news_project.wsgi.application"
 
 # --- Database -------------------------------------------------------------
-if os.environ.get("USE_MARIADB") == "1":
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": os.environ.get("DB_NAME", "news_db"),
-            "USER": os.environ.get("DB_USER", "news_user"),
-            "PASSWORD": os.environ.get("DB_PASSWORD", ""),
-            "HOST": os.environ.get("DB_HOST", "127.0.0.1"),
-            "PORT": os.environ.get("DB_PORT", "3306"),
-            "OPTIONS": {"charset": "utf8mb4"},
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("DB_NAME", "news_db"),
+        "USER": os.getenv("DB_USER", "news_user"),
+        "PASSWORD": os.getenv("DB_PASSWORD", ""),
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "3306"),
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
